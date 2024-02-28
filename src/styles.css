@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
 body {
@@ -17,6 +18,18 @@ body {
   align-items: center;
   height: 100vh;
   color: #fafafa;
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.275em;
+  line-height: 2.5em;
+  font-weight: 900;
+  color: #fafafa;
+  letter-spacing: -0.5px;
+  text-align: center;
+  margin-bottom: 0.5em;
+  opacity: 0.8;
 }
 
 img {
@@ -50,7 +63,6 @@ img {
   border-radius: 8px;
   overflow: hidden;
   mix-blend-mode: color-burn;
-  transition: transform 0.2s ease-in-out;
 }
 
 .counter {
@@ -58,4 +70,91 @@ img {
   font-size: 1.025em;
   line-height: 1.25em;
   margin: 1.25em;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  padding: 1.5em;
+  background-color: #000;
+  border-radius: 0.5em;
+  text-align: center;
+}
+
+.modal button {
+  margin-top: 0.5em;
+  padding: 0.5em 1em;
+  background-color: #9bc1db;
+  font-size: 1em;
+  color: #fafafa;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.modal button:hover {
+  background-color: #29b856;
+  border-radius: 32px;
+}
+
+.credits {
+  margin-top: 1.25em;
+  text-align: center;
+}
+
+.credits a {
+  font-size: 0.825em;
+  line-height: 1.5em;
+  font-weight: 400;
+  color: #fafafa;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: all 0.3s ease-in-out;
+}
+
+.credits a:hover {
+  opacity: 1;
+}
+
+/* responsive mobile */
+
+@media only screen and (max-width: 768px)  {
+  body {
+    padding: 0.5em 0.025em;
+  }
+  .emojis {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5em;
+    overflow: auto;
+  }
+
+  .emoji {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0,3);
+  }
+
+  .back, .emoji {
+    border-radius: 6px;
+    overflow: auto;
+  }
+
+  .counter {
+    font-size: 1em;
+  }
+
+  .credits {
+    font-size: 0.8em;
+  }
 }
