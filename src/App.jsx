@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { emojis } from "./data";
+import Credits from "./Credits";
+import Msg from "./Msg";
 
 const App = () => {
   const [matches, setMatches] = useState(0);
   const [plays, setPlays] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState(" ");
 
   // recupero emoijs y copio array
   const allEmojis = [...emojis, ...emojis];
@@ -34,15 +38,12 @@ const App = () => {
   };
 
   const toShow = (e) => {
-    console.log(e);
-    console.log(myEmojis[e].image);
     // comprobar que no haga click en el mismo objeto
     const exists = myPlays.find((existObject) => existObject.index === e);
     // comprobar que haga click en el objeto ya mostrado
     const isFinded = myEmojis[e].state;
     // condicional para ejecutar solo si jugo una vez (2 clicks)
     if (myPlays.length < 2 && !exists && isFinded === 0) {
-      console.log("ALGO");
       // obtener el valor de myPlays y añadir un objeto
       setMyPlays([
         ...myPlays,
@@ -90,8 +91,17 @@ const App = () => {
     }
   }, [myPlays]);
 
+  // useEffect Msg componnent
+  useEffect(() => {
+    if (plays > 0 && matches >= myEmojis.length / 2) {
+      setShowModal(true);
+      setModalMessage("🎉 🎉 🎉 You finished the game!!");
+    }
+  }, [matches, plays]);
+
   return (
     <>
+      <h1>Match & Memory Cards</h1>
       <div className='emojis'>
         {myEmojis.map((emoji, index) =>
           // condicional segun estado 0 === backCard 1 backgroundImage
@@ -127,6 +137,10 @@ const App = () => {
             {" "}
             % {Math.round((matches / plays) * 100)}
           </span>
+        )}
+        <Credits></Credits>
+        {showModal && (
+          <Msg message={modalMessage} onClose={() => setShowModal(false)} />
         )}
       </div>
     </>
