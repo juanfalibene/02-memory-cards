@@ -11,10 +11,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-p {
-  color: black;
+  background: linear-gradient(to top left, #0c2536, #7c289d);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #fafafa;
 }
 
 img {
@@ -23,23 +25,37 @@ img {
 }
 
 .emojis {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 2px;
-  margin: 2px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1em;
+  max-width: 800px;
+  margin: auto;
 }
 
 .emoji {
-  border: 1px solid orange;
+  border: none;
   cursor: pointer;
-  background-size: 70%;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 6px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0,5);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
 }
 
 .back {
   position: relative;
   z-index: -99;
+  border-radius: 8px;
+  overflow: hidden;
+  mix-blend-mode: color-burn;
+  transition: transform 0.2s ease-in-out;
+}
+
+.counter {
+  text-align: center;
+  font-size: 1.025em;
+  line-height: 1.25em;
+  margin: 1.25em;
 }
