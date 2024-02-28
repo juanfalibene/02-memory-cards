@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { emojis } from "./data";
 
 const App = () => {
+  const [matches, setMatches] = useState(0);
+  const [plays, setPlays] = useState(0);
+
   // recupero emoijs y copio array
   const allEmojis = [...emojis, ...emojis];
   // array dupllicado con valor 0 == oculto
@@ -10,6 +13,8 @@ const App = () => {
     state: 0,
   }));
   const [myEmojis, setMyEmojis] = useState([]);
+  // array de cartas seleccionadas
+  const [myPlays, setMyPlays] = useState([]);
 
   useEffect(() => {
     // orden al azar algoritmo Fisher-Eyes
@@ -28,16 +33,101 @@ const App = () => {
     backgroundImage: `url(./../img/question.png)`,
   };
 
+  const toShow = (e) => {
+    console.log(e);
+    console.log(myEmojis[e].image);
+    // comprobar que no haga click en el mismo objeto
+    const exists = myPlays.find((existObject) => existObject.index === e);
+    // comprobar que haga click en el objeto ya mostrado
+    const isFinded = myEmojis[e].state;
+    // condicional para ejecutar solo si jugo una vez (2 clicks)
+    if (myPlays.length < 2 && !exists && isFinded === 0) {
+      console.log("ALGO");
+      // obtener el valor de myPlays y añadir un objeto
+      setMyPlays([
+        ...myPlays,
+        {
+          image: myEmojis[e].image,
+          index: e,
+        },
+      ]);
+
+      //cambiar estado visible sin usar map
+      setMyEmojis((prevEmojis) => {
+        const updatedEmojis = [...prevEmojis];
+        updatedEmojis[e].state = 1;
+        return updatedEmojis;
+      });
+    }
+  };
+
+  useEffect(() => {
+    // realizo la jugada - click en 2 cards
+    if (myPlays.length === 2) {
+      setPlays(plays + 1);
+      console.log(plays);
+      // comparar el campo image del objeto 0 y 1
+      if (myPlays[0].image === myPlays[1].image) {
+        console.log(myPlays[0].image);
+        console.log(myPlays[1].image);
+        // acierto - reset jugada
+        setMyPlays([]);
+        setMatches(matches + 1);
+        if (matches + 1 >= myEmojis.length) {
+          alert("Game Over");
+        }
+      } else {
+        setTimeout(() => {
+          // no acierto - ocultar
+          myPlays.map((playObject) => {
+            const tempPlay = [...myEmojis];
+            tempPlay[playObject.index].state = 0;
+            setMyEmojis(tempPlay);
+            setMyPlays([]);
+          });
+        }, 1000);
+      }
+    }
+  }, [myPlays]);
+
   return (
     <>
       <div className='emojis'>
-        {myEmojis.map((emoji, index) => (
-          <div className='emoji' key={index} style={backCard}>
-            <div className='back'>
-              <img src='https://www.html6.es/img/naranja.png' alt='bg' />
+        {myEmojis.map((emoji, index) =>
+          // condicional segun estado 0 === backCard 1 backgroundImage
+          emoji.state === 0 ? (
+            <div
+              className='emoji'
+              key={index}
+              style={backCard}
+              onClick={() => toShow(index)}
+            >
+              <div className='back'>
+                <img src='./../img/back-card.png' alt='bg' />
+              </div>
             </div>
-          </div>
-        ))}
+          ) : (
+            <div
+              className='emoji'
+              key={index}
+              style={{ backgroundImage: `url(${myEmojis[index].image})` }}
+              onClick={() => toShow(index)}
+            >
+              <div className='back'>
+                <img src='./../img/back-card.png' alt='bg' />
+              </div>
+            </div>
+          )
+        )}
+      </div>
+      <div className='counter'>
+        {matches} matches of {plays} plays
+        {plays > 0 && (
+          <span className='plays'>
+            {" "}
+            % {Math.round((matches / plays) * 100)}
+          </span>
+        )}
       </div>
     </>
   );
