@@ -7,7 +7,7 @@ const App = () => {
   const [matches, setMatches] = useState(0);
   const [plays, setPlays] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState(" ");
+  const [modalMessage, setModalMessage] = useState("");
 
   // recupero emoijs y copio array
   const allEmojis = [...emojis, ...emojis];
@@ -34,7 +34,7 @@ const App = () => {
   }, []);
 
   const backCard = {
-    backgroundImage: `url(./../img/question.png)`,
+    backgroundImage: `url(./img/question.png)`,
   };
 
   const toShow = (e) => {
@@ -85,6 +85,7 @@ const App = () => {
             tempPlay[playObject.index].state = 0;
             setMyEmojis(tempPlay);
             setMyPlays([]);
+            return null;
           });
         }, 1000);
       }
@@ -113,7 +114,7 @@ const App = () => {
               onClick={() => toShow(index)}
             >
               <div className='back'>
-                <img src='./../img/back-card.png' alt='bg' />
+                <img src='./img/back-card.png' alt='bg' />
               </div>
             </div>
           ) : (
@@ -124,7 +125,7 @@ const App = () => {
               onClick={() => toShow(index)}
             >
               <div className='back'>
-                <img src='./../img/back-card.png' alt='bg' />
+                <img src='./img/back-card.png' alt='bg' />
               </div>
             </div>
           )
