@@ -66,7 +66,6 @@ const App = () => {
     // realizo la jugada - click en 2 cards
     if (myPlays.length === 2) {
       setPlays(plays + 1);
-      console.log(plays);
       // comparar el campo image del objeto 0 y 1
       if (myPlays[0].image === myPlays[1].image) {
         console.log(myPlays[0].image);
@@ -92,11 +91,28 @@ const App = () => {
     }
   }, [myPlays]);
 
+  const resetGame = () => {
+    const shuffledEmojis = [...prevEmojis];
+    for (let i = shuffledEmojis.length - 1; i > 0; i--) {
+      const randomIndex = Math.floor(Math.random() * (i + 1));
+      [shuffledEmojis[i], shuffledEmojis[randomIndex]] = [
+        shuffledEmojis[randomIndex],
+        shuffledEmojis[i],
+      ];
+    }
+
+    setMyEmojis([...shuffledEmojis]);
+    setMyPlays([]);
+    setMatches(0);
+    setPlays(0);
+  };
+
   // useEffect Msg componnent
   useEffect(() => {
     if (plays > 0 && matches >= myEmojis.length / 2) {
       setShowModal(true);
       setModalMessage("🎉 🎉 🎉 You finished the game!!");
+      resetGame();
     }
   }, [matches, plays]);
 
@@ -132,7 +148,7 @@ const App = () => {
         )}
       </div>
       <div className='counter'>
-        {matches} matches of {plays} plays
+        {matches} match{matches > 1 && "es"} of {plays} plays
         {plays > 0 && (
           <span className='plays'>
             {" "}
